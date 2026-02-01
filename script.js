@@ -25,14 +25,14 @@ const noMessages = [
 ];
 
 // GIF URLs for different stages
-const normalGif = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDhyYzZ5OGt5dHZ5bWE5ZnV5YzV5dHZ5YzV5dHZ5YzV5dHZ5YzV5Yg&ep=v1_gifs_search&rid=giphy.gif&ct=g";
+const normalGif = "https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif";
 
 yesBtn.addEventListener('click', function() {
     // Change the page when Yes is clicked
     document.querySelector('.content').innerHTML = `
         <h1 class="question">Yay! 🎉💕</h1>
         <div class="gif-container">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWRtaW4xMjM0NTY3ODkwYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXo&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="celebration">
+            <img src="https://media.giphy.com/media/FQyQEYd0KlYQ/giphy.gif" alt="celebration">
         </div>
         <p style="font-size: 2rem; color: #ff1493; margin-top: 20px;">
             I knew you'd say yes! 💖<br>
