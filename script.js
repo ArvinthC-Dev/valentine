@@ -7,32 +7,33 @@ const gif = document.getElementById('gif');
 
 // Cute messages for the No button
 const noMessages = [
-    "No",
-    "Are you sure? 🥺",
-    "Really? 💔",
-    "Think again! 💭",
-    "Don't be like that 😢",
-    "Please? 🙏",
-    "Pretty please? 💝",
-    "I'll be sad 😭",
-    "You're breaking my heart 💔",
-    "One more chance? 🌹",
-    "Reconsider? 💕",
-    "I promise to be sweet 🍭",
-    "Just say yes! 💖",
-    "Come on! 😊",
-    "Last chance! ⭐"
+	'No',
+	'Are you sure? 🥺',
+	'Really? 💔',
+	'Think again! 💭',
+	"Don't be like that 😢",
+	'Please? 🙏',
+	'Pretty please? 💝',
+	"I'll be sad 😭",
+	"You're breaking my heart 💔",
+	'One more chance? 🌹',
+	'Reconsider? 💕',
+	'I promise to be sweet 🍭',
+	'Just say yes! 💖',
+	'Come on! 😊',
+	'Last chance! ⭐',
 ];
 
 // GIF URLs for different stages
-const normalGif = "https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif";
+const normalGif = 'https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif';
 
-yesBtn.addEventListener('click', function() {
-    // Change the page when Yes is clicked
-    document.querySelector('.content').innerHTML = `
+yesBtn.addEventListener('click', function () {
+	// Change the page when Yes is clicked
+	document.querySelector('.content').innerHTML = `
         <h1 class="question">Yay! 🎉💕</h1>
         <div class="gif-container">
-            <img src="https://media.giphy.com/media/g5R9dok94mrIvplmZd/giphy.gif" alt="celebration">
+            // <img src="https://media.giphy.com/media/g5R9dok94mrIvplmZd/giphy.gif" alt="celebration">
+            <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXVpd2E2YnJ0YzZ2OG55cTNzcHVodzF6NjQzMnI4cmxwbW41dnk1byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZdqrObYRdnAVuBVCNe/giphy.gif" alt="celebration">
         </div>
         <p style="font-size: 2rem; color: #ff1493; margin-top: 20px;">
             I knew you'd say yes! 💖<br>
@@ -41,28 +42,28 @@ yesBtn.addEventListener('click', function() {
     `;
 });
 
-noBtn.addEventListener('click', function() {
-    noClickCount++;
-    
-    if (noClickCount >= 15) {
-        alert("Okay, okay! Let's start fresh! 💕");
-        resetPage();
-        return;
-    }
-    
-    // Increase Yes button size
-    yesButtonSize += 0.3;
-    yesBtn.style.fontSize = `${yesButtonSize}rem`;
-    yesBtn.style.padding = `${15 + noClickCount * 2}px ${30 + noClickCount * 3}px`;
-    
-    // Change No button text
-    noBtn.textContent = noMessages[noClickCount];
-    
-    // Add shake animation to Yes button
-    yesBtn.style.animation = 'none';
-    setTimeout(() => {
-        yesBtn.style.animation = 'shake 0.5s';
-    }, 10);
+noBtn.addEventListener('click', function () {
+	noClickCount++;
+
+	if (noClickCount >= 15) {
+		alert("Okay, okay! Let's start fresh! 💕");
+		resetPage();
+		return;
+	}
+
+	// Increase Yes button size
+	yesButtonSize += 0.3;
+	yesBtn.style.fontSize = `${yesButtonSize}rem`;
+	yesBtn.style.padding = `${15 + noClickCount * 2}px ${30 + noClickCount * 3}px`;
+
+	// Change No button text
+	noBtn.textContent = noMessages[noClickCount];
+
+	// Add shake animation to Yes button
+	yesBtn.style.animation = 'none';
+	setTimeout(() => {
+		yesBtn.style.animation = 'shake 0.5s';
+	}, 10);
 });
 
 // Add shake animation
@@ -77,11 +78,11 @@ style.textContent = `
 document.head.appendChild(style);
 
 function resetPage() {
-    noClickCount = 0;
-    yesButtonSize = 1.5;
-    
-    yesBtn.style.fontSize = '1.5rem';
-    yesBtn.style.padding = '15px 30px';
-    noBtn.textContent = 'No';
-    gif.src = normalGif;
+	noClickCount = 0;
+	yesButtonSize = 1.5;
+
+	yesBtn.style.fontSize = '1.5rem';
+	yesBtn.style.padding = '15px 30px';
+	noBtn.textContent = 'No';
+	gif.src = normalGif;
 }
