@@ -32,7 +32,6 @@ yesBtn.addEventListener('click', function () {
 	document.querySelector('.content').innerHTML = `
         <h1 class="question">Yay! 🎉💕</h1>
         <div class="gif-container">
-            // <img src="https://media.giphy.com/media/g5R9dok94mrIvplmZd/giphy.gif" alt="celebration">
             <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXVpd2E2YnJ0YzZ2OG55cTNzcHVodzF6NjQzMnI4cmxwbW41dnk1byZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZdqrObYRdnAVuBVCNe/giphy.gif" alt="celebration">
         </div>
         <p style="font-size: 2rem; color: #ff1493; margin-top: 20px;">
