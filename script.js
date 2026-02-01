@@ -21,7 +21,22 @@ const noMessages = [
 	'I promise to be sweet 🍭',
 	'Just say yes! 💖',
 	'Come on! 😊',
-	'Last chance! ⭐',
+	'Please reconsider! 🥹',
+	'You know you want to! 😊',
+	"I'll bring you flowers! 🌺",
+	'Chocolate too? 🍫',
+	"You're making me sad 😿",
+	'How about now? 💝',
+	"Can't resist forever! 💫",
+	'Give me a chance! 🌟',
+	"Don't you love me? 💕",
+	'This is torture! 😭',
+	'Be mine? 💘',
+	"I'm waiting... ⏰",
+	'You know the answer! 😉',
+	"YES is so easy! 💗",
+	'Almost there... 🎯',
+	'Last chance now! ⭐',
 ];
 
 // GIF URLs for different stages
@@ -44,16 +59,16 @@ yesBtn.addEventListener('click', function () {
 noBtn.addEventListener('click', function () {
 	noClickCount++;
 
-	if (noClickCount >= 15) {
+	if (noClickCount >= 30) {
 		alert("Okay, okay! Let's start fresh! 💕");
 		resetPage();
 		return;
 	}
 
 	// Increase Yes button size
-	yesButtonSize += 0.3;
+	yesButtonSize += 0.5;
 	yesBtn.style.fontSize = `${yesButtonSize}rem`;
-	yesBtn.style.padding = `${15 + noClickCount * 2}px ${30 + noClickCount * 3}px`;
+	yesBtn.style.padding = `${15 + noClickCount * 3}px ${30 + noClickCount * 5}px`;
 
 	// Change No button text
 	noBtn.textContent = noMessages[noClickCount];
