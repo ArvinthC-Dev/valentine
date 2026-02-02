@@ -21,12 +21,20 @@ let analyticsData = {
 	interactions: [],
 };
 
+// Backend API URL - change this to your deployed backend URL
+const API_BASE_URL =
+	window.location.hostname === 'localhost'
+		? 'http://localhost:3000'
+		: 'https://valentine-ebon-one.vercel.app'; // Replace with your actual backend URL
+
 // Flag to track if initial data has been sent
 let isInitialized = false;
 
 // Generate a unique session ID
 function generateSessionId() {
-	return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+	return (
+		'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9)
+	);
 }
 
 // Collect IP address
@@ -40,7 +48,7 @@ async function collectIPAddress() {
 		console.error('Failed to fetch IP address:', error);
 		analyticsData.ipAddress = 'unavailable';
 	}
-	
+
 	// Track page load and send initial data after IP is collected
 	trackInteraction('page_load');
 	isInitialized = true;
@@ -55,7 +63,7 @@ function trackInteraction(action, details = {}) {
 	};
 	analyticsData.interactions.push(interaction);
 	console.log('Interaction tracked:', interaction);
-	
+
 	// Only send to backend if IP has been collected or if it's a critical action
 	if (isInitialized || action === 'yes_button_click') {
 		sendAnalyticsToServer();
@@ -65,18 +73,18 @@ function trackInteraction(action, details = {}) {
 // Send analytics data to MongoDB via backend API
 async function sendAnalyticsToServer() {
 	try {
-		const response = await fetch('/api/analytics', {
+		const response = await fetch(`${API_BASE_URL}/api/analytics`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(analyticsData),
 		});
-		
+
 		const result = await response.json();
 		if (result.success) {
 			console.log('✅ Analytics saved to database:', result);
-			
+
 			if (result.isReturningUser) {
 				console.log(`👋 Welcome back! This is visit #${result.visitCount}`);
 			} else {
@@ -87,6 +95,9 @@ async function sendAnalyticsToServer() {
 		}
 	} catch (error) {
 		console.error('❌ Error sending analytics to server:', error);
+		console.log(
+			'💡 Tip: Make sure your backend is deployed and the API_BASE_URL is correct',
+		);
 	}
 }
 
@@ -122,7 +133,7 @@ const noMessages = [
 	'Be mine? 💘',
 	"I'm waiting... ⏰",
 	'You know the answer! 😉',
-	"YES is so easy! 💗",
+	'YES is so easy! 💗',
 	'Almost there... 🎯',
 	'Last chance now! ⭐',
 ];
