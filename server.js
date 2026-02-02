@@ -12,9 +12,8 @@ const PORT = process.env.PORT || 3000;
 const allowedOrigins = [
 	'http://localhost:3000',
 	'http://127.0.0.1:3000',
-	'https://arvinthc-dev.github.io', // Update with your GitHub username
-	'https://*.github.io', // Allow all GitHub Pages
-	'https://valentine-ebon-one.vercel.app/',
+	'https://arvinthc-dev.github.io',
+	'https://valentine-ebon-one.vercel.app', // No trailing slash!
 ];
 
 app.use(
