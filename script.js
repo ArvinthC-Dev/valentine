@@ -22,10 +22,11 @@ let analyticsData = {
 };
 
 // Backend API URL - change this to your deployed backend URL
+// Note: Frontend is on valentine-ybfb.vercel.app, Backend API is on valentine-ebon-one.vercel.app
 const API_BASE_URL =
 	window.location.hostname === 'localhost'
 		? 'http://localhost:3000'
-		: 'https://valentine-ebon-one.vercel.app'; // Replace with your actual backend URL
+		: 'https://valentine-ybfb.vercel.app'; // Backend API URL
 
 // Flag to track if initial data has been sent
 let isInitialized = false;
