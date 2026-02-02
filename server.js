@@ -14,6 +14,7 @@ const allowedOrigins = [
 	'http://127.0.0.1:3000',
 	'https://arvinthc-dev.github.io',
 	'https://valentine-ebon-one.vercel.app', // No trailing slash!
+	'https://valentine-ybfb.vercel.app', // No trailing slash!
 ];
 
 app.use(
@@ -85,6 +86,33 @@ const analyticsSchema = new mongoose.Schema(
 const Analytics = mongoose.model('Analytics', analyticsSchema);
 
 // API Routes
+
+// Health check endpoint
+app.get('/api/health', async (req, res) => {
+	try {
+		// Check MongoDB connection
+		const dbStatus =
+			mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+
+		res.status(200).json({
+			success: true,
+			status: 'healthy',
+			timestamp: new Date().toISOString(),
+			uptime: process.uptime(),
+			database: {
+				status: dbStatus,
+				name: mongoose.connection.name,
+			},
+			environment: process.env.NODE_ENV || 'development',
+		});
+	} catch (error) {
+		res.status(503).json({
+			success: false,
+			status: 'unhealthy',
+			error: error.message,
+		});
+	}
+});
 
 // Create or update analytics session
 app.post('/api/analytics', async (req, res) => {
