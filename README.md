@@ -8,10 +8,68 @@ A cute and interactive way to ask someone to be your Valentine!
 - 💝 Interactive Yes/No buttons
 - 📈 Yes button grows with each "No" click
 - 💬 Cute changing messages on the No button
-- 🔄 Auto-reset after 15 "No" clicks
+- 🔄 Auto-reset after 30 "No" clicks
 - 📱 Fully responsive design
+- 📊 **Analytics tracking with MongoDB** - Tracks IP, browser info, and user interactions
 
-## How to Deploy on GitHub Pages
+## Setup Instructions
+
+### 1. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Configure MongoDB
+
+Edit the `.env` file and replace the credentials:
+
+```env
+DB_USERNAME=your_mongodb_username
+DB_PASSWORD=your_mongodb_password
+```
+
+Or update the connection string directly in `server.js`:
+
+```javascript
+const MONGODB_URI = 'mongodb+srv://your_username:your_password@assitantai.uvqeglr.mongodb.net/?appName=AssitantAI';
+```
+
+### 3. Start the Server
+
+```bash
+npm start
+```
+
+Or for development with auto-reload:
+
+```bash
+npm run dev
+```
+
+The server will run on `http://localhost:3000`
+
+## Analytics Features
+
+The application tracks:
+- **IP Address** - Visitor's public IP
+- **Browser Information** - User agent, language, platform, screen resolution, timezone
+- **Session Data** - Unique session ID and visit timestamp
+- **User Interactions**:
+  - Page loads
+  - "Yes" button clicks
+  - "No" button clicks (with count and button text)
+  - Page resets
+
+All data is automatically saved to MongoDB.
+
+## API Endpoints
+
+- `POST /api/analytics` - Save/update analytics data
+- `GET /api/analytics` - Get all analytics records
+- `GET /api/analytics/:sessionId` - Get specific session data
+
+## How to Deploy on GitHub Pages (Static Version)
 
 1. **Create a new repository on GitHub**
    - Go to [github.com](https://github.com) and create a new repository

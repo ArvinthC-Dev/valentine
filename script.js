@@ -5,6 +5,94 @@ const yesBtn = document.getElementById('yesBtn');
 const noBtn = document.getElementById('noBtn');
 const gif = document.getElementById('gif');
 
+// Analytics data object
+let analyticsData = {
+	sessionId: generateSessionId(),
+	visitTimestamp: new Date().toISOString(),
+	ipAddress: null,
+	browserInfo: {
+		userAgent: navigator.userAgent,
+		language: navigator.language,
+		platform: navigator.platform,
+		screenResolution: `${screen.width}x${screen.height}`,
+		timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+		cookiesEnabled: navigator.cookieEnabled,
+	},
+	interactions: [],
+};
+
+// Flag to track if initial data has been sent
+let isInitialized = false;
+
+// Generate a unique session ID
+function generateSessionId() {
+	return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+}
+
+// Collect IP address
+async function collectIPAddress() {
+	try {
+		const response = await fetch('https://api.ipify.org?format=json');
+		const data = await response.json();
+		analyticsData.ipAddress = data.ip;
+		console.log('Analytics Data:', analyticsData);
+	} catch (error) {
+		console.error('Failed to fetch IP address:', error);
+		analyticsData.ipAddress = 'unavailable';
+	}
+	
+	// Track page load and send initial data after IP is collected
+	trackInteraction('page_load');
+	isInitialized = true;
+}
+
+// Track interaction
+function trackInteraction(action, details = {}) {
+	const interaction = {
+		action: action,
+		timestamp: new Date().toISOString(),
+		...details,
+	};
+	analyticsData.interactions.push(interaction);
+	console.log('Interaction tracked:', interaction);
+	
+	// Only send to backend if IP has been collected or if it's a critical action
+	if (isInitialized || action === 'yes_button_click') {
+		sendAnalyticsToServer();
+	}
+}
+
+// Send analytics data to MongoDB via backend API
+async function sendAnalyticsToServer() {
+	try {
+		const response = await fetch('/api/analytics', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(analyticsData),
+		});
+		
+		const result = await response.json();
+		if (result.success) {
+			console.log('✅ Analytics saved to database:', result);
+			
+			if (result.isReturningUser) {
+				console.log(`👋 Welcome back! This is visit #${result.visitCount}`);
+			} else {
+				console.log('🎉 First time visitor!');
+			}
+		} else {
+			console.error('❌ Failed to save analytics:', result.message);
+		}
+	} catch (error) {
+		console.error('❌ Error sending analytics to server:', error);
+	}
+}
+
+// Initialize analytics on page load
+collectIPAddress();
+
 // Cute messages for the No button
 const noMessages = [
 	'No',
@@ -43,6 +131,12 @@ const noMessages = [
 const normalGif = 'https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif';
 
 yesBtn.addEventListener('click', function () {
+	// Track Yes button click
+	trackInteraction('yes_button_click', {
+		noClickCount: noClickCount,
+		yesButtonSize: yesButtonSize,
+	});
+
 	// Change the page when Yes is clicked
 	document.querySelector('.content').innerHTML = `
         <h1 class="question">Yay! 🎉💕</h1>
@@ -59,7 +153,14 @@ yesBtn.addEventListener('click', function () {
 noBtn.addEventListener('click', function () {
 	noClickCount++;
 
+	// Track No button click
+	trackInteraction('no_button_click', {
+		clickCount: noClickCount,
+		buttonText: noMessages[noClickCount] || 'No',
+	});
+
 	if (noClickCount >= 30) {
+		trackInteraction('reset_triggered', { reason: 'max_no_clicks_reached' });
 		alert("Okay, okay! Let's start fresh! 💕");
 		resetPage();
 		return;
@@ -92,6 +193,7 @@ style.textContent = `
 document.head.appendChild(style);
 
 function resetPage() {
+	trackInteraction('page_reset');
 	noClickCount = 0;
 	yesButtonSize = 1.5;
 
